@@ -1,9 +1,8 @@
 import { OpenAI } from "openai";
-import dotenv from "dotenv";
+import { config } from "../config";
 
-dotenv.config();
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: config.OPENAI_API_KEY,
 });
 
 export async function createStreamResponse(prompt: string) {

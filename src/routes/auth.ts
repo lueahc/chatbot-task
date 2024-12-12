@@ -3,11 +3,9 @@ import { validateRequestMiddleware } from "../middlewares/validate.request";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Joi from "joi";
+import { config } from "../config";
 
-dotenv.config();
 const authRouter = new Router();
-const SECRET_KEY = process.env.JWT_SECRET_KEY || "jwt_secret_key";
-const EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 const authSchema = Joi.object({
   userId: Joi.string().required(),
 });
@@ -15,7 +13,9 @@ const authSchema = Joi.object({
 authRouter.post("/auth", validateRequestMiddleware(authSchema), async (ctx) => {
   const { userId } = ctx.request.body;
   try {
-    const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: EXPIRES_IN });
+    const token = jwt.sign({ userId }, config.JWT_SECRET_KEY, {
+      expiresIn: config.JWT_EXPIRES_IN,
+    });
     ctx.body = { token };
     return;
   } catch (error) {

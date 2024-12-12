@@ -1,10 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import google from "googlethis";
-
-dotenv.config();
-const API_KEY = process.env.GOOGLE_API_KEY;
-const CSE_ID = process.env.GOOGLE_CSE_ID;
+import { config } from "../config";
 
 export async function searchGoogle(query: string): Promise<string[]> {
   try {
@@ -13,8 +10,8 @@ export async function searchGoogle(query: string): Promise<string[]> {
       {
         params: {
           q: query,
-          cx: CSE_ID,
-          key: API_KEY,
+          cx: config.GOOGLE_CSE_ID,
+          key: config.GOOGLE_API_KEY,
         },
       }
     );
