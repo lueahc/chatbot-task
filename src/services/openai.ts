@@ -28,7 +28,9 @@ export async function createNonStreamResponse(prompt: string): Promise<string> {
       messages: [{ role: "user", content: prompt }],
       max_tokens: 500,
     });
-    return nonStream.choices[0].message?.content?.trim() || "";
+    return (
+      nonStream.choices[0].message?.content?.replace(/\n\n/g, "").trim() || ""
+    );
   } catch (error) {
     throw new Error("OpenAI Non-stream Error");
   }
