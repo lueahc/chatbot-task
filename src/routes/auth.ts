@@ -12,10 +12,17 @@ const authSchema = Joi.object({
   userId: Joi.string().required(),
 });
 
-authRouter.post("/auth", async (ctx) => {
+authRouter.post("/auth", validateRequestMiddleware(authSchema), async (ctx) => {
   const { userId } = ctx.request.body;
-  const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: EXPIRES_IN });
-  ctx.body = { token };
+  try {
+    const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: EXPIRES_IN });
+    ctx.body = { token };
+    return;
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = { error: "Jwt Sign Error" };
+    return;
+  }
 });
 
 export default authRouter;
