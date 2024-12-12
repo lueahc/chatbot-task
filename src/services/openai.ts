@@ -6,11 +6,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function createStreamResponse(content: string) {
+export async function createStreamResponse(prompt: string) {
   try {
     const stream = await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      messages: [{ role: "user", content }],
+      messages: [{ role: "user", content: prompt }],
       stream: true,
     });
     for await (const chunk of stream) {
@@ -21,13 +21,11 @@ export async function createStreamResponse(content: string) {
   }
 }
 
-export async function createNonStreamResponse(
-  content: string
-): Promise<string> {
+export async function createNonStreamResponse(prompt: string): Promise<string> {
   try {
     const nonStream = await openai.chat.completions.create({
       model: "gpt-4o-mini-2024-07-18",
-      messages: [{ role: "user", content }],
+      messages: [{ role: "user", content: prompt }],
       max_tokens: 500,
     });
     return nonStream.choices[0].message?.content?.trim() || "";
