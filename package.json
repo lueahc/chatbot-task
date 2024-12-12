@@ -26,6 +26,7 @@
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "googleapis": "^144.0.0",
+    "googlethis": "^1.8.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "koa": "^2.15.3",
