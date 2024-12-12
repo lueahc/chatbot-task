@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { Middleware } from "koa";
 import dotenv from "dotenv";
 
@@ -23,8 +23,16 @@ export const jwtAuthMiddleware: Middleware = async (ctx, next) => {
   try {
     ctx.state.user = jwt.verify(token, SECRET_KEY);
   } catch (error) {
-    ctx.status = 401;
-    ctx.body = { error: "Invalid Token" };
+    if (error instanceof TokenExpiredError) {
+      ctx.status = 401;
+      ctx.body = { error: "Expired Token Error" };
+    } else if (error instanceof JsonWebTokenError) {
+      ctx.status = 401;
+      ctx.body = { error: "Invalid Token Error" };
+    } else {
+      ctx.status = 500;
+      ctx.body = { error: "Internal Server Error" };
+    }
     return;
   }
 
