@@ -1,7 +1,6 @@
 import Router from "@koa/router";
 import { validateRequestMiddleware } from "../middlewares/validate.request";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import Joi from "joi";
 import { config } from "../config";
 
@@ -17,11 +16,9 @@ authRouter.post("/auth", validateRequestMiddleware(authSchema), async (ctx) => {
       expiresIn: config.JWT_EXPIRES_IN,
     });
     ctx.body = { token };
-    return;
   } catch (error) {
     ctx.status = 500;
     ctx.body = { error: "Jwt Sign Error" };
-    return;
   }
 });
 

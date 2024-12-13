@@ -1,5 +1,4 @@
 import axios from "axios";
-import dotenv from "dotenv";
 import google from "googlethis";
 import { config } from "../config";
 

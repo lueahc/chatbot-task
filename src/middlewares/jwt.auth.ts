@@ -1,6 +1,5 @@
 import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { Middleware } from "koa";
-import dotenv from "dotenv";
 import { config } from "../config";
 
 export const jwtAuthMiddleware: Middleware = async (ctx, next) => {
@@ -20,6 +19,7 @@ export const jwtAuthMiddleware: Middleware = async (ctx, next) => {
 
   try {
     ctx.state.user = jwt.verify(token, config.JWT_SECRET_KEY);
+    await next();
   } catch (error) {
     if (error instanceof TokenExpiredError) {
       ctx.status = 401;
@@ -33,6 +33,4 @@ export const jwtAuthMiddleware: Middleware = async (ctx, next) => {
     }
     return;
   }
-
-  await next();
 };

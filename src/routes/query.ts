@@ -13,19 +13,14 @@ queryRouter.post(
   "/query",
   validateRequestMiddleware(querySchema),
   async (ctx) => {
+    const { query, stream } = ctx.request.body;
     try {
-      const { query, stream } = ctx.request.body;
-      if (stream) {
-        const response = ask(query, stream);
-        ctx.body = response;
-      } else {
-        const response = await ask(query, stream);
-        ctx.body = { chatbot: response };
-      }
+      const response = stream ? ask(query, true) : await ask(query, false);
+      ctx.body = stream ? response : { chatbot: response };
     } catch (error) {
       ctx.status = 500;
       ctx.body = {
-        error: error instanceof Error ? error.message : "Internal Server Error",
+        error: "Internal Server Error",
       };
     }
   }
