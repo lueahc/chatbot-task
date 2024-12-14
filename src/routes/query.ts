@@ -1,7 +1,7 @@
 import Router from "@koa/router";
 import { validateRequestMiddleware } from "../middlewares/validate.request";
 import { ask } from "../services/chatbot";
-import Joi from "joi";
+import Joi, { isError } from "joi";
 
 const queryRouter = new Router();
 const querySchema = Joi.object({
@@ -72,6 +72,16 @@ const querySchema = Joi.object({
  *                 error:
  *                   type: string
  *                   example: "Internal server error"
+ *       502:
+ *         description: API 호출 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal server error"
  */
 queryRouter.post(
   "/query",
@@ -82,10 +92,17 @@ queryRouter.post(
       const response = stream ? ask(query, true) : await ask(query, false);
       ctx.body = stream ? response : { chatbot: response };
     } catch (error) {
-      ctx.status = 500;
-      ctx.body = {
-        error: "Internal Server Error",
-      };
+      if (isError(error)) {
+        ctx.status = 502;
+        ctx.body = {
+          error: error.message,
+        };
+      } else {
+        ctx.status = 500;
+        ctx.body = {
+          error: "Unknown Error",
+        };
+      }
     }
   }
 );
