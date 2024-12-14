@@ -81,7 +81,7 @@ const querySchema = Joi.object({
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Internal server error"
+ *                   example: "Google/OpenAI error"
  */
 queryRouter.post(
   "/query",
