@@ -1,8 +1,8 @@
 ## CHATBOT API
 
-- JWT 기반 사용자 권한 인증
-- 외부 API를 통해 사용자의 질문에 대한 적절한 응답 생성
-- Swagger를 이용한 문서화 및 테스트 가능 환경 제공
+- `/auth`: JWT 기반 사용자 권한 인증
+- `/query`: 외부 API를 통해 사용자의 질문에 대한 적절한 응답 생성
+- `/docs`: Swagger를 이용한 문서화 및 테스트 가능 환경 제공
 
 ## Tech Stack
 
