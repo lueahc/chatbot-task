@@ -14,24 +14,11 @@ export const searchGoogle = async (query: string): Promise<string[]> => {
         },
       }
     );
-    return response.data.items?.map((item: any) => item.title) || [];
+    //console.log("search response: ", response.data.items);
+
+    //return response.data.items?.map((item: any) => item.title) || [];
+    return response.data.items?.map((item: any) => item.snippet) || [];
   } catch (error) {
     throw new Error("Google Error");
   }
-
-  // const options = {
-  //   page: 0,
-  //   safe: false,
-  //   parse_ads: false,
-  //   additional_params: {
-  //     hl: "ko",
-  //   },
-  // };
-
-  // try {
-  //   const response = await google.search(query, options);
-  //   return response.results.map((item: any) => item.title) || [];
-  // } catch (err) {
-  //   throw new Error("GoogleThis Error");
-  // }
 };
