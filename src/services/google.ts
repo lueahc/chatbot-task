@@ -2,7 +2,7 @@ import axios from "axios";
 import google from "googlethis";
 import { config } from "../config";
 
-export async function searchGoogle(query: string): Promise<string[]> {
+export const searchGoogle = async (query: string): Promise<string[]> => {
   try {
     const response = await axios.get(
       `https://www.googleapis.com/customsearch/v1`,
@@ -34,4 +34,4 @@ export async function searchGoogle(query: string): Promise<string[]> {
   // } catch (err) {
   //   throw new Error("GoogleThis Error");
   // }
-}
+};

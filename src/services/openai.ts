@@ -5,7 +5,7 @@ const openai = new OpenAI({
   apiKey: config.OPENAI_API_KEY,
 });
 
-export async function createStreamResponse(prompt: string) {
+export const createStreamResponse = async (prompt: string) => {
   try {
     const stream = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -18,9 +18,11 @@ export async function createStreamResponse(prompt: string) {
   } catch (error) {
     throw new Error("OpenAI Stream Error");
   }
-}
+};
 
-export async function createNonStreamResponse(prompt: string): Promise<string> {
+export const createNonStreamResponse = async (
+  prompt: string
+): Promise<string> => {
   try {
     const nonStream = await openai.chat.completions.create({
       model: "gpt-4o-mini-2024-07-18",
@@ -33,4 +35,4 @@ export async function createNonStreamResponse(prompt: string): Promise<string> {
   } catch (error) {
     throw new Error("OpenAI Non-stream Error");
   }
-}
+};
